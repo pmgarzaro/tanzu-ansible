@@ -1,0 +1,34 @@
+- name: Check if environment proxy settings already exist
+  shell: grep -E '^http_proxy=|^https_proxy=|^ftp_proxy=|^no_proxy=' /etc/environment
+  register: proxy_env_check
+  changed_when: false
+  ignore_errors: true
+
+- name: Configure environment proxy settings
+  ansible.builtin.lineinfile:
+    path: /etc/environment
+    line: "{{ item }}"
+    state: present
+  loop:
+    - "http_proxy=http://{{ proxy_url }}"
+    - "https_proxy=http://{{ proxy_url }}"
+    - "ftp_proxy=http://{{ proxy_url }}"
+    - "no_proxy=localhost,127.0.0.1,{{ internal_subnet }}"
+  #when: proxy_env_check.rc != 0
+
+- name: Check if apt proxy settings already exist
+  ansible.builtin.stat:
+    path: /etc/apt/apt.conf.d/95proxies
+  register: apt_proxy_check
+
+- name: Configure apt proxy settings
+  ansible.builtin.lineinfile:
+    path: /etc/apt/apt.conf.d/95proxies
+    line: "{{ item }}"
+    create: yes
+    state: present
+  loop:
+    - "Acquire::Http::Proxy \"http://{{ proxy_url }}\";"
+    - "Acquire::Https::Proxy \"http://{{ proxy_url }}\";"
+    - "Acquire::Ftp::Proxy \"http://{{ proxy_url }}\";"
+  when: not apt_proxy_check.stat.exists

@@ -1,0 +1,3 @@
+ca_files: [ 'root-ca.pem', 'sub-ca.pem']
+ca_src_folder: /data/sourcesbm/middlewares/Serveur CAS/Bordeaux-it.fr/Bordeaux-IT.fr
+ca_dst_folder: /usr/share/pki/ca-trust-source/anchors

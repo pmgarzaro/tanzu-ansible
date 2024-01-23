@@ -1,0 +1,14 @@
+- name: Vérification de la présence des certificats racine
+  stat:
+    path: "{{ca_dst_folder}}/root-ca.pem"
+  register: root_ca_exists
+
+- name: Copie des certificats racines
+  copy:
+    src: "{{ca_src_folder}}/{{item}}"
+    dest: "{{ca_dst_folder}}/{{item}}"
+  loop: "{{ ca_files }}"
+  register: root_ca_copied
+
+- name: Update CA certificates
+  shell: update-ca-certificates

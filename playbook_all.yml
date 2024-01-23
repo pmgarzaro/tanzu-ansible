@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: yes
+  roles:
+    #- add_pki
+    #- add_ssh_key
+    #- configure_proxy
+    #- configure_snmp
+    - modify_ntp_dns
+    # Ajoutez d'autres rôles selon vos besoins

@@ -1,0 +1,4 @@
+snmp_community: "your_snmp_community"
+snmp_network: "your_network"
+snmp_syslocation: "Server Room"
+snmp_syscontact: "admin@example.com"
