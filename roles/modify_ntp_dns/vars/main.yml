@@ -1,5 +1,5 @@
 ntp_servers:
-  - "ntp1.example.com"
-  - "ntp2.example.com"
-dns_server1: "8.8.8.8"
-dns_server2: "8.8.4.4"
+  - "172.27.4.5"
+  - "172.27.4.6"
+dns_server1: "172.27.4.6"
+dns_server2: "172.27.4.5"

@@ -1,2 +1,1 @@
-proxy_url: "toto:8888"
-internal_subnet: "8.8.8.8"
+proxy_url: "8.8.8.8"

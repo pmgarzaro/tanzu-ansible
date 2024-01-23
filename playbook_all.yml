@@ -1,6 +1,8 @@
 ---
 - hosts: all
   become: yes
+  vars_files: 
+    - secret.yml
   roles:
     #- add_pki
     #- add_ssh_key

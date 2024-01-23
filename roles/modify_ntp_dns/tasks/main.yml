@@ -1,0 +1,43 @@
+- name: Install Chrony
+  ansible.builtin.apt:
+    name: chrony
+    state: present
+
+- name: Remove old NTP server configurations
+  become: yes
+  ansible.builtin.lineinfile:
+    path: /etc/chrony/chrony.conf
+    regexp: '^server .*$'
+    state: absent
+
+- name: Configure NTP servers in chrony.conf
+  become: yes
+  ansible.builtin.blockinfile:
+    path: /etc/chrony/chrony.conf
+    block: |
+      {% for server in ntp_servers %}
+      server {{ server }} iburst
+      {% endfor %}
+    marker: "# {mark} ANSIBLE MANAGED BLOCK NTP SERVERS"
+
+- name: Restart Chrony service
+  become: yes
+  ansible.builtin.service:
+    name: chrony
+    state: restarted
+
+- name: Remove old NTP server configurations
+  become: yes
+  ansible.builtin.lineinfile:
+    path: /etc/chrony/chrony.conf
+    regexp: '^nameserver .*$'
+    state: absent
+
+- name: Configure resolv.conf for custom DNS
+  become: yes
+  ansible.builtin.blockinfile:
+    path: /etc/resolv.conf
+    block: |
+      nameserver {{ dns_server1 }}
+      nameserver {{ dns_server2 }}
+    marker: "# {mark} ANSIBLE MANAGED BLOCK DNS"

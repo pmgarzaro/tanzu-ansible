@@ -12,8 +12,6 @@
   loop:
     - "http_proxy=http://{{ proxy_url }}"
     - "https_proxy=http://{{ proxy_url }}"
-    - "ftp_proxy=http://{{ proxy_url }}"
-    - "no_proxy=localhost,127.0.0.1,{{ internal_subnet }}"
   #when: proxy_env_check.rc != 0
 
 - name: Check if apt proxy settings already exist
